@@ -17,7 +17,7 @@ function getComputerChoice() {
 
 function getHumanChoice() {
 
-    humanChoice = prompt("Enter your choice: RemotePlayback, Paper or Scissors?");
+    humanChoice = prompt("Enter your choice: Rock, Paper or Scissors?", "Rock/Paper/Scissors");
     return humanChoice;
 }
 
