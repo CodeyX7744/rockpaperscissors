@@ -36,6 +36,8 @@ scissorsDiv.appendChild(scissorsImage);
 let choices = document.querySelector(".choices");
 choices.addEventListener("click", playGame);
 
+let gameNumber = document.querySelector(".gameNumber");
+
 
 function getComputerChoice() {
 
@@ -55,13 +57,19 @@ function getHumanChoice(event) {
     switch (event.target.alt) {
         case "rock":
             console.log("You chose rock.");
+            i=i+1;
             return "rock";
-            case "paper":
+        case "paper":
             console.log("You chose paper.");
+            i=i+1;
             return "paper";
         case "scissors":
             console.log("You chose scissors.");
+            i=i+1;
             return "scissors";
+        default:
+            i=i;
+            return "";
     }
 }
     function displayScore (display) {
@@ -73,11 +81,44 @@ function getHumanChoice(event) {
         displayWinner.innerText = display;
 
 
+
+        setTimeout(function() {
+            if (humanScore===3) {
+                     
+                console.log("You win!");
+                gameReset();
+    
+                if (window.confirm("You win! Play again?")) {
+                    // Reloads the current page without opening a new tab
+                    window.location.href = "index.html"; 
+                }else {
+                    alert("Thanks for playing! See you next time.");
+                }
+                
+            } else if (computerScore===3) {
+                
+                console.log("You lose :( The computer wins!");
+                gameReset();
+    
+                if (window.confirm("You lose :( The computer wins! Play again?")) {
+                    // Reloads the current page without opening a new tab
+                    window.location.href = "index.html"; 
+                }else {
+                    alert("Thanks for playing! See you next time.");
+                }
+            }
+        }, 500);
+
     }
 
-    function deleteLastChild() {
+    function deleteLastChildHuman() {
         if (displayHuman.lastChild) {
             displayHuman.removeChild(displayHuman.lastChild);
+         }
+    }
+    function deleteLastChildComputer() {
+        if (displayComputer.lastChild) {
+            displayComputer.removeChild(displayComputer.lastChild);
          }
     }
 
@@ -90,106 +131,107 @@ function getHumanChoice(event) {
             console.log(`You win!, ${humanChoice} beats ${computerChoice}`);
             humanScore++;
             display = `You win!, ${humanChoice} beats ${computerChoice}.`;
-            deleteLastChild();
+            deleteLastChildHuman();
+            deleteLastChildComputer()
             displayHuman.appendChild(rockDiv);
+            displayComputer.appendChild(scissorsDiv);
             displayScore(display);
         } else if ( humanChoice==="rock" && computerChoice === "paper") {
             console.log(`You lose!, ${computerChoice} beats ${humanChoice}`);
             computerScore++;
             display = `You lose!, ${computerChoice} beats ${humanChoice}.`;
-            deleteLastChild();
+            deleteLastChildHuman();
+            deleteLastChildComputer();
             displayHuman.appendChild(rockDiv);
+            displayComputer.appendChild(paperDiv);
             displayScore(display);
         } else if ( humanChoice==="paper" && computerChoice === "scissors") {
             console.log(`You lose!, ${computerChoice} beats ${humanChoice}`);
             computerScore++;
             display = `You lose!, ${computerChoice} beats ${humanChoice}.`;
-            deleteLastChild();
+            deleteLastChildHuman();
+            deleteLastChildComputer();
             displayHuman.appendChild(paperDiv);
+            displayComputer.appendChild(scissorsDiv);
             displayScore(display);
         } else if ( humanChoice==="paper" && computerChoice === "rock") {
             console.log(`You win!, ${humanChoice} beats ${computerChoice}`);
             humanScore++;
             display = `You win!, ${humanChoice} beats ${computerChoice}.`;
-            deleteLastChild();
+            deleteLastChildHuman();
+            deleteLastChildComputer();
             displayHuman.appendChild(paperDiv);
+            displayComputer.appendChild(rockDiv);
             displayScore(display);
         } else if ( humanChoice==="scissors" && computerChoice === "rock") {
             console.log(`You lose!, ${computerChoice} beats ${humanChoice}`);
             computerScore++;
             display = `You lose!, ${computerChoice} beats ${humanChoice}.`;
-            deleteLastChild();
+            deleteLastChildHuman();
+            deleteLastChildComputer();
             displayHuman.appendChild(scissorsDiv);
+            displayComputer.appendChild(rockDiv);
             displayScore(display);
         } else if ( humanChoice==="scissors" && computerChoice === "paper") {
             console.log(`You win!, ${humanChoice} beats ${computerChoice}`);
             humanScore++;
             display = `You win!, ${humanChoice} beats ${computerChoice}.`;
-            deleteLastChild();
+            deleteLastChildHuman();
+            deleteLastChildComputer();
             displayHuman.appendChild(scissorsDiv);
+            displayComputer.appendChild(paperDiv);
             displayScore(display);
         } else { 
             console.log(`Draw!, Both of you chose ${computerChoice}.`); 
             display = `Draw!, Both of you chose ${computerChoice}.`;
-            if (computerChoice === "rock") {
-                deleteLastChild();
+            if (computerChoice === "rock" && humanChoice === "rock") {
+                deleteLastChildHuman();
+                deleteLastChildComputer();
                 displayHuman.appendChild(rockDiv);
+                let rockDivClone = rockDiv.cloneNode(true);
+                displayComputer.appendChild(rockDivClone);
                 displayScore(display);
 
-            } else if (computerChoice === "paper") {
-                deleteLastChild();
+            } else if (computerChoice === "paper" && humanChoice === "paper") {
+                deleteLastChildHuman();
+                deleteLastChildComputer();
                 displayHuman.appendChild(paperDiv);
+                let paperDivClone = paperDiv.cloneNode(true);
+                displayComputer.appendChild(paperDivClone);
                 displayScore(display);
 
-            } else if (computerChoice === "scissors") {
-                deleteLastChild();
+            } else if (computerChoice === "scissors" && humanChoice === "scissors") {
+                deleteLastChildHuman();
+                deleteLastChildComputer();
                 displayHuman.appendChild(scissorsDiv);
+                let scissorsDivClone = scissorsDiv.cloneNode(true);
+                displayComputer.appendChild(scissorsDivClone);
                 displayScore(display);
 
             } 
           
-        };
-
-   
-
-       
-        if (humanScore===3) {
-            console.log("You win!");
-            gameReset()
-        } else if (computerScore===3) {
-            console.log("You lose :( The computer wins!");
-            gameReset()
-        } else if (i===7 && humanScore > computerScore) {
-            console.log("You win!");
-            gameReset()
-            
-        } else if (i===7 && humanScore < computerScore) {
-            console.log("You lose :( The computer wins!");
-            gameReset()
-            
-        } else if (i===7 && humanScore === computerScore) {
-            console.log("It's a draw!");
-            gameReset()
-            
-        }
-                      
+        };                      
 
     }   
 
     function gameReset() {
         humanScore = 0;
         computerScore = 0;
-        i=1;
+        i=0;
 
     }
 
         function playGame(event) {
             console.log(`Game Number: ${i}`);
+            gameNumber.innerText = `Game Number: ${i}`;
 
-            i=i+1;
+           
             let computerChoice = getComputerChoice();
             let humanChoice = getHumanChoice(event);
             playRound(humanChoice, computerChoice);
+
+
+        
             
             
         }

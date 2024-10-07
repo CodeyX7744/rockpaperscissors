@@ -16,8 +16,8 @@ body {
 }
 h1 {
     text-align: center;
-    font-size: 75px;
-    padding: 20px;
+    font-size: 60px;
+    padding: 10px 10px 0px 10px;
 }
 .container {
     display: flex;  
@@ -28,6 +28,7 @@ h1 {
 }
 .images{
     display: flex;
+    margin-bottom: 50px;;
     
 }
 
@@ -61,4 +62,6 @@ img {
     margin-bottom: 50px;
 }
 
-
+.gameNumber {
+    font-size: 60px;
+}
